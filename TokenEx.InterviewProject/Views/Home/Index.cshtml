@@ -1,0 +1,125 @@
+﻿@model TokenEx.InterviewProject.Models.IndexViewModel
+@{
+    ViewBag.Title = "Payment Info";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/Content/Site.css" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/additional-methods.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>  
+    <script type="text/javascript" src="https://test-htp.tokenex.com/Iframe/Iframe-v3.min.js"></script>
+    <script type="text/javascript">
+        var iframe;
+        $(function () {
+            $.ajax({
+                url: '@Url.Action("GetAuthenticationKey", "Home")',
+                data: {},
+                success: function(data) {
+                    LoadFrame(data.TimeStamp, data.AuthenticationKey);
+                }
+            });
+        });
+
+        function LoadFrame(timeStamp, authKey) {
+            var styles = {
+                base:
+                    "font-family: Arial, sans-serif;padding: 0 8px;border: 1px solid rgba(0, 0, 0, 0.2);margin: 0;width: 174px;font-size: 13px;line-height: 30px;height: 23px;box-sizing: border-box;-moz-box-sizing: border-box;",
+                focus:
+                    "box-shadow: 0 0 6px 0 rgba(0, 132, 255, 0.5);border: 1px solid rgba(0, 132, 255, 0.5);outline: 0;",
+                error: "box-shadow: 0 0 6px 0 rgba(224, 57, 57, 0.5);border: 1px solid rgba(224, 57, 57, 0.5);"
+            }
+
+            var iframeConfig = {
+                origin: "http://localhost",
+                timestamp: timeStamp,
+                tokenExID: "7639326364821993",
+                tokenScheme: "sixANTOKENfour",
+                authenticationKey: authKey,
+                styles: styles
+            };
+
+            iframe = new TokenEx.Iframe("creditCardiFrameDiv", iframeConfig);
+            //iframe.on("load", function() {alert('Tokenizer loaded')});
+            iframe.on("error", function (data) { alert("Error " + JSON.stringify(data)) });
+            //iframe.on("validate", function(data) { alert("Validate token: " + JSON.stringify(data)) });
+            iframe.on("tokenize", function (data) {
+                //alert('Tokenized');
+                //alert('Token is ' + data.token);
+                $("#Token")[0].value = data.token;
+                $("#paymentForm").submit();
+            });
+            iframe.load();
+        }
+
+        function OnClick() {
+            iframe.tokenize();
+        }
+    </script>
+</head>
+
+<body>
+    @if (ViewBag.AuthCode != null && !string.IsNullOrEmpty(ViewBag.AuthCode))
+    {<div class="alert success">
+        Approved! Your Confirmation Number is: @ViewBag.AuthCode
+    </div>
+    }
+
+    @if (ViewBag.Error != null && !string.IsNullOrEmpty(ViewBag.Error))
+    {<div class="alert error">
+        @ViewBag.Error
+    </div>
+    }
+
+
+    @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { @id = "paymentForm" }))
+    {
+
+        <fieldset>
+            <h2>Name</h2>
+            <div>
+                <div>
+                    <label for="firstName">First Name</label><br />
+                    @Html.TextBoxFor(model => model.FirstName, new { @id = "firstName", @placeholder = "John" })
+                </div>
+                <div>
+                    <label for="lastName">Last Name</label><br />
+                    @Html.TextBoxFor(model => model.LastName, new { @id = "lastName", @placeholder = "Doe" })
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <h2>Payment Details</h2>
+            <div>
+                <div>
+                    <label for="creditCard">Credit Card Number</label><br />
+                    @* Implement the TokenEx Iframe here *@
+                    <div id="creditCardiFrameDiv" style="height: 25px;"></div>
+                    @Html.HiddenFor(model => model.Token)
+                    @*@Html.TextBoxFor(model => model.CreditCardNumber, new { @id = "creditCard", autocomplete = "off", @maxlength = "19" })*@
+                </div>
+                <div>
+                    <label for="cvv">CVV</label><br />
+                    @Html.TextBoxFor(model => model.CVV, new { @id = "cvv", @class = "", autocomplete = "off", @maxlength = "4" })
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Expiration Date</label><br />
+                    @Html.TextBoxFor(model => model.ExpMonth, new { @id = "expMonth", autocomplete = "off", @maxlength = "2", @placeholder = "MM", @size = "3" })
+                </div>
+
+                <div>
+                    @Html.TextBoxFor(model => model.ExpYear, new { @id = "expYear", autocomplete = "off", @maxlength = "4", @placeholder = "YYYY", @size = "5" })
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <input type="button" value="Submit Payment" onclick="OnClick()">
+        </fieldset>
+    }
+</body>
+</html>

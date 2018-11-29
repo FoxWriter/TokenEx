@@ -1,0 +1,154 @@
+﻿html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+    font-family: Arial;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+form {
+    max-width: 420px;
+    margin: 10px auto;
+    border: 2px solid #656565;
+}
+
+h2 {
+    width: 100%;
+    background: #656565;
+    padding: 10px;
+    margin: 0;
+    box-sizing: border-box;
+    color: white;
+    font-size: 24px;
+}
+
+label {
+    font-size: 16px;
+}
+
+fieldset {
+    padding: 0;
+    box-sizing: border-box;
+}
+
+fieldset > div {
+    padding: 10px;
+}
+
+fieldset > div > div {
+    width: 49%;
+    display: inline-block;
+}
+
+input {
+    height: 25px;
+    padding: 20px 16px;
+    font-size: 18px;
+    line-height: 1.33;
+    outline: 0;
+    position: relative;
+    width: 100%;
+    margin-bottom: 0;
+    box-sizing: border-box;
+    margin-top: 5px;
+}
+
+.input-validation-error {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    border: solid 1px;
+}
+
+input.error {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    border: solid 1px;
+}
+
+input[type="submit"] {
+    margin-bottom: 0;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    line-height: 1.42857;
+    border-radius: 0px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    display: block;
+    color: #656565;
+    background-color: #eeeeee;
+    padding: 10px 16px;
+    font-size: 18px;
+    height: 48px;
+}
+input[type="submit"]:hover {
+    color: white;
+    background-color: #656565;
+    border-color: #ccc;
+}
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 0px;
+    max-width: 390px;
+    margin: 10px auto;
+}
+
+.alert.success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    border: 1px solid;
+}
+.alert.error {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    border: 1px solid;
+}
